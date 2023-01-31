@@ -1,0 +1,1 @@
+enum CacheEnumKeys { TOKEN, ENTERENCE }

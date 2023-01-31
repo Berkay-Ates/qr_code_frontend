@@ -1,0 +1,21 @@
+{
+  
+  "onboard":{
+    "page0":{
+      "title":"Kolay Paylaşım",
+      "desc":"QR kodlarınızı saklayabilir ve paylaşabilirsiniz."
+    },
+    "page1":{
+      "title":"Çok Esnek",
+      "desc":"QR kodların içinde istediğiniz her şeyi saklayabilirsiniz."
+    },
+    "page2":{
+      "title":"Çok Hızlı",
+      "desc":"Beklemeden hızlı bir şekilde ulaşmanın yolu mu, bu yüzden QR Code burada."
+    }
+  },
+    "select_language" : "dil sec lutfen",
+    "next_step" : "sonraki adim lutfen",
+    "thank_you" : "Tesekkurler lutfen",
+    "keep_coding":"Şu anda easy localization çalışıyor, neden devam etmiyoruz"
+  }

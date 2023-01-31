@@ -1,0 +1,20 @@
+{
+  "onboard":{
+    "page0":{
+      "title":"Easy Share",
+      "desc":"You can store and share your qr codes."
+    },
+    "page1":{
+      "title":"Very Flexible",
+      "desc":"You can store whatever you want inside the qr codes."
+    },
+    "page2":{
+      "title":"Very Fast",
+      "desc":"You need to acces quickly without waiting, so QR Code here."
+    }
+  },
+    "select_language" : "Select language please",
+    "next_step" : "Next step please",
+    "thank_you" : "Thank you please",
+    "keep_coding":"easy localization workd right now so why we do not keep going"
+  }
