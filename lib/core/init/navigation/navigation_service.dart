@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import '../../../feature/home/generated_qr/view/generated_qr_view.dart';
 
 import '../../../feature/auth/onboard/view/onboard_view.dart';
 import '../../../feature/auth/register_login/view/register_login_view.dart';
@@ -16,6 +17,9 @@ class NavigationService {
     GoRoute(path: NavigationEnums.splashView.routeName, builder: ((context, state) => const SplashView())),
     GoRoute(path: NavigationEnums.onBoardView.routeName, builder: ((context, state) => const OnboardView())),
     GoRoute(path: NavigationEnums.homeView.routeName, builder: ((context, state) => const AppHomeView())),
+    GoRoute(
+        path: "${NavigationEnums.generatedQrView.routeName}/:qrData",
+        builder: ((context, state) => GeneratedQrView(qrData: state.params["qrData"] ?? " DATA WAS NULL"))),
     GoRoute(path: NavigationEnums.registerLoginView.routeName, builder: ((context, state) => const RegisterLoginView()))
   ]);
 }

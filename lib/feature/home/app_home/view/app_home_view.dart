@@ -31,10 +31,14 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
           length: 3,
           child: Scaffold(
             extendBody: true,
-            drawer: const Drawer(),
+            // drawer: const Drawer(),
             appBar: AppBar(
               title: Observer(builder: (_) {
-                return viewModel.pageIndex == 0 ? const Text("History") : const Text("Generate");
+                return viewModel.pageIndex == 0
+                    ? const Text("Generate")
+                    : viewModel.pageIndex == 1
+                        ? const Text("Scan")
+                        : const Text("History");
               }),
               actions: [
                 IconButton(
@@ -44,7 +48,7 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
                       final sharedManager = SharedManger(sharedprefObj?.getSharedObject);
                       await sharedManager.removeData(CacheEnumKeys.TOKEN.name);
                     }),
-                    icon: const Icon(Icons.clear_sharp))
+                    icon: const Icon(Icons.logout_outlined))
               ],
             ),
             bottomNavigationBar: BottomAppBar(

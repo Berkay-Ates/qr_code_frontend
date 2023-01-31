@@ -17,6 +17,22 @@ mixin _$QrGenerateViewModel on _QrGenerateViewModelBase, Store {
               name: '_QrGenerateViewModelBase.QRmodels'))
       .value;
 
+  late final _$isloadingAtom =
+      Atom(name: '_QrGenerateViewModelBase.isloading', context: context);
+
+  @override
+  bool get isloading {
+    _$isloadingAtom.reportRead();
+    return super.isloading;
+  }
+
+  @override
+  set isloading(bool value) {
+    _$isloadingAtom.reportWrite(value, super.isloading, () {
+      super.isloading = value;
+    });
+  }
+
   late final _$selectedIndexAtom =
       Atom(name: '_QrGenerateViewModelBase.selectedIndex', context: context);
 
@@ -64,8 +80,31 @@ mixin _$QrGenerateViewModel on _QrGenerateViewModelBase, Store {
   }
 
   @override
+  void changeLoading() {
+    final _$actionInfo = _$_QrGenerateViewModelBaseActionController.startAction(
+        name: '_QrGenerateViewModelBase.changeLoading');
+    try {
+      return super.changeLoading();
+    } finally {
+      _$_QrGenerateViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void navigateAndBuildQR() {
+    final _$actionInfo = _$_QrGenerateViewModelBaseActionController.startAction(
+        name: '_QrGenerateViewModelBase.navigateAndBuildQR');
+    try {
+      return super.navigateAndBuildQR();
+    } finally {
+      _$_QrGenerateViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+isloading: ${isloading},
 selectedIndex: ${selectedIndex},
 qrCodeOptionsEnum: ${qrCodeOptionsEnum},
 QRmodels: ${QRmodels}

@@ -47,7 +47,7 @@ abstract class _QrHistoryViewModelBase with Store, BaseViewModel {
         return Icons.paste_outlined;
       case QrCodeOptionsEnum.contact:
         return Icons.contact_phone_outlined;
-      case QrCodeOptionsEnum.phone:
+      case QrCodeOptionsEnum.social:
         return Icons.contact_phone_outlined;
       case QrCodeOptionsEnum.url:
         return FontAwesomeIcons.globe;
@@ -73,7 +73,7 @@ abstract class _QrHistoryViewModelBase with Store, BaseViewModel {
             radius: 27,
             backgroundColor: Colors.deepOrange,
             child: Icon(Icons.contact_phone_outlined, size: 32, color: Colors.white));
-      case QrCodeOptionsEnum.phone:
+      case QrCodeOptionsEnum.social:
         return const CircleAvatar(
             radius: 27,
             backgroundColor: Colors.blue,

@@ -1,7 +1,7 @@
 enum QrCodeOptionsEnum {
   text('text'),
   contact('contact'),
-  phone('social'),
+  social('social'),
   url('url'),
   message('message'),
   location('location'),

@@ -18,6 +18,9 @@ dependencies:
   mobx: ^2.1.3
   flutter_mobx: ^2.0.6+5
 
+  # qr code generator
+  qr_flutter: ^4.0.0
+
   #cache
   hive_flutter: ^1.1.0
   shared_preferences: ^2.0.17

@@ -14,7 +14,7 @@ class AppThemeLight extends AppTheme with AppLightThemeInterface {
 
   @override
   ThemeData get themeData => ThemeData.light().copyWith(
-      appBarTheme: ThemeData.light().appBarTheme.copyWith(centerTitle: true),
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(centerTitle: true, elevation: 0),
       colorScheme: _appColorScheme,
       floatingActionButtonTheme: floatingActionButtonTheme,
       inputDecorationTheme: _appInputDecorationTheme(),

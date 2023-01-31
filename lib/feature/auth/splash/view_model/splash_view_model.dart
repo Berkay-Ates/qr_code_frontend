@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import '../../../../core/init/token/user_token.dart';
+
+import '../../../../core/base/view_model/base_view_model.dart';
 import '../../../../core/constants/cache/cache_enums.dart';
 import '../../../../core/constants/durations/app_durations.dart';
 import '../../../../core/constants/enums/navigation_enums.dart';
 import '../../../../core/constants/enums/network_connectivity_enums.dart';
-import '../../../../core/init/cache/shared_manager.dart';
-import '../../../../core/init/network/connectivity/network_connectivity.dart';
-
-import '../../../../core/base/view_model/base_view_model.dart';
 import '../../../../core/init/cache/i_shared_manager.dart';
+import '../../../../core/init/cache/shared_manager.dart';
 import '../../../../core/init/cache/shared_object.dart';
 import '../../../../core/init/network/connectivity/i_network_connectivity.dart';
+import '../../../../core/init/network/connectivity/network_connectivity.dart';
+import '../../../../core/init/token/user_token.dart';
 
 part 'splash_view_model.g.dart';
 
