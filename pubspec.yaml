@@ -53,7 +53,8 @@ dependencies:
   flutter_native_splash: ^2.2.9
   font_awesome_flutter: ^10.3.0
 
-
+  # google ads
+  google_mobile_ads: ^2.3.0
 
   #State management
 
