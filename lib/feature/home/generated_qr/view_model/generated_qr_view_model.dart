@@ -1,84 +1,51 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qr_code/feature/home/generated_qr/model/generated_qr_save_model.dart';
 
 import '../../../../core/base/view_model/base_view_model.dart';
 import '../../../../core/constants/app/application_constants.dart';
 import '../../../../product/enums/qr_code_options_enums.dart';
-import '../model/gen_scan_qr_models.dart';
 
-part 'qr_history_view_model.g.dart';
+part 'generated_qr_view_model.g.dart';
 
-class QrHistoryViewModel = _QrHistoryViewModelBase with _$QrHistoryViewModel;
+class GeneratedQrViewModel = _GeneratedQrViewModelBase with _$GeneratedQrViewModel;
 
-abstract class _QrHistoryViewModelBase with Store, BaseViewModel {
-  TabController? tabController;
-
+abstract class _GeneratedQrViewModelBase with Store, BaseViewModel {
   @observable
-  GeneratedScannedQRModels? scannedQrCodes;
-
+  var isLoading = false;
   @observable
-  GeneratedScannedQRModels? generatedQrCodes;
+  var isQrLocal = true;
+
   @override
   void setContext(BuildContext context) => baseContext = context;
 
   @override
-  void init() {
-    getUserGeneratedQrCodes();
-    //getUserScannedQrCodes();
-  }
+  void init() {}
 
   @action
-  Future<void> getUserGeneratedQrCodes() async {
+  Future<void> saveGeneratedQr(String qrData, String displayQrData, String qrType) async {
     final String token = 'Bearer ${userToken.getToken}';
-    final response = await appService?.dio.get(
-      ApplicationConstants.USER_ALL_GENERATED_QR_CODES,
-      options: Options(headers: {"Authorization": token}),
-    );
-
-    final data = response?.data;
-
-    if (data is Map<String, dynamic>) {
-      generatedQrCodes = GeneratedScannedQRModels.fromJson(response?.data);
-    }
+    changeLoading();
+    try {
+      final response = await appService?.dio.post(
+        ApplicationConstants.QR_SAVE_URL,
+        options: Options(headers: {"Authorization": token}),
+        data: GeneratedQrModel(qrData: qrData, displayQrData: displayQrData, qrScanGen: "generated", qrType: qrType)
+            .toJson(),
+      );
+      if (response?.statusCode == HttpStatus.ok) {
+        isQrLocal = false;
+      }
+    } on Exception {}
+    changeLoading();
   }
 
   @action
-  Future<void> getUserScannedQrCodes() async {
-    final String token = 'Bearer ${userToken.getToken}';
-    final response = await appService?.dio.get(
-      ApplicationConstants.USER_ALL_SCANNED_QR_CODES,
-      options: Options(headers: {"Authorization": token}),
-    );
-
-    final data = response?.data;
-
-    if (data is Map<String, dynamic>) {
-      scannedQrCodes = GeneratedScannedQRModels.fromJson(response?.data);
-    }
-  }
-
-  @action
-  IconData? getQrAvatar(QrCodeOptionsEnum qrType) {
-    switch (qrType) {
-      case QrCodeOptionsEnum.text:
-        return Icons.paste_outlined;
-      case QrCodeOptionsEnum.contact:
-        return Icons.contact_phone_outlined;
-      case QrCodeOptionsEnum.social:
-        return Icons.contact_phone_outlined;
-      case QrCodeOptionsEnum.url:
-        return FontAwesomeIcons.globe;
-      case QrCodeOptionsEnum.message:
-        return Icons.message_outlined;
-      case QrCodeOptionsEnum.location:
-        return Icons.location_on_outlined;
-      case QrCodeOptionsEnum.email:
-        return Icons.mail_outline_outlined;
-      case QrCodeOptionsEnum.other:
-        return Icons.question_mark_outlined;
-    }
+  void changeLoading() {
+    isLoading = !isLoading;
   }
 
   @action

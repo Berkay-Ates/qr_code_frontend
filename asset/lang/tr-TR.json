@@ -14,8 +14,86 @@
       "desc":"Beklemeden hızlı bir şekilde ulaşmanın yolu mu, bu yüzden QR Code burada."
     }
   },
-    "select_language" : "dil sec lutfen",
-    "next_step" : "sonraki adim lutfen",
-    "thank_you" : "Tesekkurler lutfen",
-    "keep_coding":"Şu anda easy localization çalışıyor, neden devam etmiyoruz"
+  "register_login":{
+    "login":"Giriş Yap",
+    "signUp":"Kayıt Ol",
+    "email":"email",
+    "password":"şifre",
+    "forgot_passw":"Şifremi Unuttum",
+    "entor_to_app":"uygulamaya gir",
+    "no_account":"Hesabım yok",
+    "name":"isim",
+    "create_account":"hesap oluştur",
+    "stronger_password":"Lütfen daha güçlü bir şifre giriniz",
+    "valid_email":"Geçerli bir email giriniz",
+    "name_required":"İsim alanı boş geçilemez"
+  },
+  "generate_qr":{
+    "app_bar":"Üret",
+    "exit":"Çıkış yap",
+    "change_lang":"Dili değiştir",
+    "empty_error":"Bu alan boş bırakılamaz",
+
+    "qr_options":{
+      "qr_text":{
+        "label":"Text",
+        "hint":"metni buraya giriniz"
+      },
+      "qr_contact":{
+        "label":"Kontak",
+        "hint_name":"isim",
+        "hint_phone":"telefon numarası",
+        "email":"email"
+      },
+      "qr_social":{
+        "label":"Sosyal",
+        "hint":"sosyal medya kullanıcı ismi"
+      },
+      "qr_website":{
+        "label":"Web url",
+        "hint":"urlyi giriniz"
+      },
+      "qr_message":{
+        "label":"Mesaj",
+        "hint":"mesajı buraya giriniz"
+      },
+      "qr_location":{
+        "label":"Konum",
+        "city":"şehir",
+        "street":"sokak",
+        "home":"ev"
+      },
+      "qr_mail":{
+        "label":"Mail",
+        "receiver":"alıcı",
+        "subject":"konu",
+        "content":"mail iceriği"
+      },
+      "qr_other":{
+        "label":"Diğer",
+        "hint":"mesajı buraya giriniz"
+      }
+    }
+  },
+  "scan_qr":{
+    "app_bar":"Tara",
+    "scanning":"taranıyor...",
+    "info_text": "Qr kodların direk olarak kaydetme özelliği eklenene kadar ekran fotografı alarak qr kodları kaydedebilirsiniz",
+    "top_to_show":"QR Tarandı"
+  },
+  "qr_history":{
+    "no_saved_qr":"Hiç kaydedilmiş qr kodunuz yok, hemen bir tane kaydetmeyi deneyin",
+    "scanned_qr_cant_save_info": "Çok yakında taradığınız QR kodları kaydedebileceksiniz!",
+    "app_bar":"Geçmiş",
+    "scanned":"Tarandı",
+    "generated_his":"Üretildi"
+  },
+  "generated_qr_view":{
+    "saved_qr_info":"Bu qr kodu kaydettiniz",
+    "delete_qr_info":"Bu qr kodu sildiniz",
+    "gen_title":"Üretilen QR",
+    "save":"Kaydet",
+    "back":"Geri",
+    "delete":"Qr'ı sil"
+  }
   }

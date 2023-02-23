@@ -41,6 +41,14 @@ mixin _$AppHomeViewModel on _AppHomeViewModelBase, Store {
     });
   }
 
+  late final _$setLangAsyncAction =
+      AsyncAction('_AppHomeViewModelBase.setLang', context: context);
+
+  @override
+  Future<void> setLang(bool value) {
+    return _$setLangAsyncAction.run(() => super.setLang(value));
+  }
+
   late final _$_AppHomeViewModelBaseActionController =
       ActionController(name: '_AppHomeViewModelBase', context: context);
 

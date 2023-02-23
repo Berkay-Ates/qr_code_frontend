@@ -21,6 +21,9 @@ dependencies:
   # qr code generator
   qr_flutter: ^4.0.0
 
+  # qr code scanner 
+  qr_code_scanner: ^1.0.1
+
   #cache
   hive_flutter: ^1.1.0
   shared_preferences: ^2.0.17
@@ -31,6 +34,9 @@ dependencies:
 
   #localization
   easy_localization: ^3.0.1
+
+  #gallery image
+  image_picker: ^0.8.6+2
 
   #navigation
   go_router: ^4.5.1
@@ -46,6 +52,8 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_native_splash: ^2.2.9
   font_awesome_flutter: ^10.3.0
+
+
 
   #State management
 

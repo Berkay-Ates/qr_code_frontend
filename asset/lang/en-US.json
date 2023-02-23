@@ -13,8 +13,86 @@
       "desc":"You need to acces quickly without waiting, so QR Code here."
     }
   },
-    "select_language" : "Select language please",
-    "next_step" : "Next step please",
-    "thank_you" : "Thank you please",
-    "keep_coding":"easy localization workd right now so why we do not keep going"
+  "register_login":{
+    "login":"Login",
+    "signUp":"Sign Up",
+    "email":"email",
+    "password":"password",
+    "forgot_passw":"Forgot Password",
+    "entor_to_app":"enter to app",
+    "no_account":"Don't have a account",
+    "name":"name",
+    "create_account":"create an account",
+    "stronger_password":"Please provide stronger password",
+    "valid_email":"Please provide valid email",
+    "name_required":"Please provide valid name"
+  },
+  "generate_qr":{
+    "app_bar":"Generate",
+    "exit":"Exit",
+    "change_lang":"Change Language",
+    "empty_error":"This field could not be empty",
+
+    "qr_options":{
+      "qr_text":{
+        "label":"Text",
+        "hint":"please fill in the text here"
+      },
+      "qr_contact":{
+        "label":"Contact",
+        "hint_name":"name",
+        "hint_phone":"phone-number",
+        "email":"email"
+      },
+      "qr_social":{
+        "label":"Social",
+        "hint":"social media user name"
+      },
+      "qr_website":{
+        "label":"Web url",
+        "hint":"please fill in the text here"
+      },
+      "qr_message":{
+        "label":"Message",
+        "hint":"please fill in the text here"
+      },
+      "qr_location":{
+        "label":"Location",
+        "city":"City",
+        "street":"Street",
+        "home":"Home"
+      },
+      "qr_mail":{
+        "label":"Mail",
+        "receiver":"receiver",
+        "subject":"subject",
+        "content":"mail-content"
+      },
+      "qr_other":{
+        "label":"Other",
+        "hint":"please fill in the text here"
+      }
+    }
+  },
+  "scan_qr":{
+    "app_bar":"Scan",
+    "info_text": "You may take secreen shot until we enabled the saving qr feature",
+    "scanning":"scanning...",
+    "top_to_show":"Tap to show"
+  },
+  "qr_history":{
+    "no_saved_qr":"You have't got any saved qr codes,try saving one",
+    "scanned_qr_cant_save_info": "You will be able to save your scanned QR Codes as soon as possible",
+    "app_bar":"History",
+    "scanned":"Scanned",
+    "generated_his":"Generated"
+  },
+  "generated_qr_view":{
+    "saved_qr_info":"You have been saved this qr code",
+    "delete_qr_info":"You have been deleted this qr code",
+    "gen_title":"Generated QR",
+    "save":"Save",
+    "back":"Back",
+    "delete":"Delete Qr"
+  }
   }

@@ -1,12 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/base/view/base_view.dart';
 import '../../../../core/constants/cache/cache_enums.dart';
-import '../../../../core/init/cache/shared_manager.dart';
-import '../../../../core/init/cache/shared_object.dart';
+import '../../../../core/constants/enums/lang_enums.dart';
+import '../../../../core/constants/enums/navigation_enums.dart';
+import '../../../../core/init/lang/language_manager.dart';
+import '../../../../core/init/lang/locale_keys.g.dart';
+import '../../../../product/paddings/app_paddings.dart';
 import '../../qr_generate/view/qr_generate_view.dart';
 import '../../qr_history/view/qr_history_view.dart';
+import '../../qr_scan/view/qr_scan_view.dart';
 import '../view_model/app_home_view_model.dart';
 
 class AppHomeView extends StatefulWidget {
@@ -22,8 +27,8 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
     return BaseView<AppHomeViewModel>(
       viewModel: AppHomeViewModel(),
       onModelReady: ((viewModel) {
-        viewModel.init();
         viewModel.setContext(context);
+        viewModel.init();
         viewModel.tabController = TabController(length: 3, vsync: this);
       }),
       onPageBuilder: ((context, viewModel) {
@@ -31,25 +36,56 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
           length: 3,
           child: Scaffold(
             extendBody: true,
-            // drawer: const Drawer(),
+            drawer: Drawer(
+              child: Padding(
+                  padding: AppPaddings.largeHorizontalPadding,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(children: [
+                        Icon(Icons.logout_outlined, color: Theme.of(context).colorScheme.primary),
+                        TextButton(
+                            onPressed: () {},
+                            onLongPress: (() async {
+                              final response = await viewModel.sharedManager?.removeData(CacheEnumKeys.TOKEN.name);
+                              if (response ?? false) {
+                                viewModel.navigationService.router.go(NavigationEnums.onBoardView.routeName);
+                              }
+                            }),
+                            child: Text(LocaleKeys.generate_qr_exit.tr(), style: Theme.of(context).textTheme.headline6))
+                      ]),
+                      const Divider(thickness: 2),
+                      Row(children: [
+                        Icon(Icons.translate_outlined, color: Theme.of(context).colorScheme.primary),
+                        TextButton(
+                            onPressed: (() async {
+                              final result = await viewModel.sharedManager?.setString(
+                                  LanguageEmums.language.name,
+                                  viewModel.langLocale == LanguageManager.instance.enLocale
+                                      ? LanguageEmums.turkish.name
+                                      : LanguageEmums.english.name);
+
+                              if (result ?? false) {
+                                viewModel.langLocale = viewModel.langLocale == LanguageManager.instance.enLocale
+                                    ? LanguageManager.instance.trLocale
+                                    : LanguageManager.instance.enLocale;
+                                await viewModel.setLang(result ?? false);
+                              }
+                            }),
+                            child: Text(LocaleKeys.generate_qr_change_lang.tr(),
+                                style: Theme.of(context).textTheme.headline6))
+                      ]),
+                    ],
+                  )),
+            ),
             appBar: AppBar(
               title: Observer(builder: (_) {
                 return viewModel.pageIndex == 0
-                    ? const Text("Generate")
+                    ? Text(LocaleKeys.generate_qr_app_bar.tr())
                     : viewModel.pageIndex == 1
-                        ? const Text("Scan")
-                        : const Text("History");
+                        ? Text(LocaleKeys.scan_qr_app_bar.tr())
+                        : Text(LocaleKeys.qr_history_app_bar.tr());
               }),
-              actions: [
-                IconButton(
-                    onPressed: (() async {
-                      final sharedprefObj = SharedPrefObject.instance;
-                      await sharedprefObj?.initShared();
-                      final sharedManager = SharedManger(sharedprefObj?.getSharedObject);
-                      await sharedManager.removeData(CacheEnumKeys.TOKEN.name);
-                    }),
-                    icon: const Icon(Icons.logout_outlined))
-              ],
             ),
             bottomNavigationBar: BottomAppBar(
               color: Theme.of(context).colorScheme.onSurface,
@@ -57,22 +93,22 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
                 controller: viewModel.tabController,
                 isScrollable: false,
                 onTap: (value) => viewModel.chandePageIndex(value),
-                tabs: const [
+                tabs: [
                   Tab(
-                    iconMargin: EdgeInsets.all(3),
-                    icon: Icon(Icons.add_box_outlined, size: 32),
-                    child: Text("   Generate   "),
+                    iconMargin: const EdgeInsets.all(3),
+                    icon: const Icon(Icons.add_box_outlined, size: 32),
+                    child: Text("    ${LocaleKeys.generate_qr_app_bar.tr()}   "),
                   ),
                   Tab(
-                    iconMargin: EdgeInsets.all(3),
-                    icon: Icon(Icons.qr_code_scanner_outlined, size: 32),
-                    child: Text("   Scan   "),
+                    iconMargin: const EdgeInsets.all(3),
+                    icon: const Icon(Icons.qr_code_scanner_outlined, size: 32),
+                    child: Text("    ${LocaleKeys.scan_qr_app_bar.tr()}   "),
                   ),
                   Tab(
-                    iconMargin: EdgeInsets.all(3),
-                    icon: Icon(Icons.history, size: 32),
-                    child: Text("   History   "),
-                  )
+                    iconMargin: const EdgeInsets.all(3),
+                    icon: const Icon(Icons.history, size: 32),
+                    child: Text("    ${LocaleKeys.qr_history_app_bar.tr()}   "),
+                  ),
                 ],
                 labelStyle: Theme.of(context).textTheme.button?.copyWith(),
                 unselectedLabelStyle: Theme.of(context).textTheme.button,
@@ -86,7 +122,9 @@ class _AppHomeViewState extends State<AppHomeView> with TickerProviderStateMixin
             body: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: viewModel.tabController,
-                children: [const QrGenerateView(), Container(color: Colors.red), const QrHistoryView()]),
+                children: const [QrGenerateView(), QrCodeScanView(), QrHistoryView()]
+                //children: const [QrGenerateView(), QrCodeScanView()]
+                ),
           ),
         );
       }),

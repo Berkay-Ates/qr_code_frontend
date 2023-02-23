@@ -1,85 +1,56 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qr_code/core/constants/app/application_constants.dart';
+import 'package:qr_code/core/init/network/service/network_sercice.dart';
 
 import '../../../../core/base/view_model/base_view_model.dart';
-import '../../../../core/constants/app/application_constants.dart';
 import '../../../../product/enums/qr_code_options_enums.dart';
-import '../model/gen_scan_qr_models.dart';
 
-part 'qr_history_view_model.g.dart';
+part 'qr_history_detail_view_model.g.dart';
 
-class QrHistoryViewModel = _QrHistoryViewModelBase with _$QrHistoryViewModel;
+class QrHistoryDetailViewModel = _QrHistoryDetailViewModelBase with _$QrHistoryDetailViewModel;
 
-abstract class _QrHistoryViewModelBase with Store, BaseViewModel {
-  TabController? tabController;
-
-  @observable
-  GeneratedScannedQRModels? scannedQrCodes;
-
-  @observable
-  GeneratedScannedQRModels? generatedQrCodes;
+abstract class _QrHistoryDetailViewModelBase with Store, BaseViewModel {
   @override
   void setContext(BuildContext context) => baseContext = context;
 
+  @observable
+  bool isLoading = false;
+
+  @observable
+  bool isQrDeleted = false;
+
+  @action
+  Future<void> deleteQr(String idDelete) async {
+    final String token = 'Bearer ${userToken.getToken}';
+
+    changeLoading();
+    try {
+      print("${ApplicationConstants.QR_DELETE_URL}$idDelete");
+      final response = await AppServiceInstance.instance?.dio.delete(
+        "${ApplicationConstants.QR_DELETE_URL}$idDelete",
+        options: Options(headers: {"Authorization": token}),
+      );
+      if (response?.statusCode == HttpStatus.ok) {
+        isQrDeleted = true;
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    changeLoading();
+  }
+
+  void changeLoading() {
+    isLoading = !isLoading;
+  }
+
   @override
-  void init() {
-    getUserGeneratedQrCodes();
-    //getUserScannedQrCodes();
-  }
-
-  @action
-  Future<void> getUserGeneratedQrCodes() async {
-    final String token = 'Bearer ${userToken.getToken}';
-    final response = await appService?.dio.get(
-      ApplicationConstants.USER_ALL_GENERATED_QR_CODES,
-      options: Options(headers: {"Authorization": token}),
-    );
-
-    final data = response?.data;
-
-    if (data is Map<String, dynamic>) {
-      generatedQrCodes = GeneratedScannedQRModels.fromJson(response?.data);
-    }
-  }
-
-  @action
-  Future<void> getUserScannedQrCodes() async {
-    final String token = 'Bearer ${userToken.getToken}';
-    final response = await appService?.dio.get(
-      ApplicationConstants.USER_ALL_SCANNED_QR_CODES,
-      options: Options(headers: {"Authorization": token}),
-    );
-
-    final data = response?.data;
-
-    if (data is Map<String, dynamic>) {
-      scannedQrCodes = GeneratedScannedQRModels.fromJson(response?.data);
-    }
-  }
-
-  @action
-  IconData? getQrAvatar(QrCodeOptionsEnum qrType) {
-    switch (qrType) {
-      case QrCodeOptionsEnum.text:
-        return Icons.paste_outlined;
-      case QrCodeOptionsEnum.contact:
-        return Icons.contact_phone_outlined;
-      case QrCodeOptionsEnum.social:
-        return Icons.contact_phone_outlined;
-      case QrCodeOptionsEnum.url:
-        return FontAwesomeIcons.globe;
-      case QrCodeOptionsEnum.message:
-        return Icons.message_outlined;
-      case QrCodeOptionsEnum.location:
-        return Icons.location_on_outlined;
-      case QrCodeOptionsEnum.email:
-        return Icons.mail_outline_outlined;
-      case QrCodeOptionsEnum.other:
-        return Icons.question_mark_outlined;
-    }
-  }
+  void init() {}
 
   @action
   Widget? getQrAvatars(QrCodeOptionsEnum qrType) {

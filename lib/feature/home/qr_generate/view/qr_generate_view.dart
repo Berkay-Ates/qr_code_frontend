@@ -1,7 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_code/core/init/lang/locale_keys.g.dart';
+import 'package:qr_code/product/enums/social_media_enums.dart';
 
 import '../../../../core/base/view/base_view.dart';
 import '../../../../product/enums/qr_code_options_enums.dart';
@@ -18,17 +21,17 @@ class QrGenerateView extends StatelessWidget {
     return BaseView<QrGenerateViewModel>(
       viewModel: QrGenerateViewModel(),
       onModelReady: ((viewModel) {
-        viewModel.init();
         viewModel.setContext(context);
+        viewModel.init();
       }),
       onPageBuilder: ((context, viewModel) {
         viewModel.formState.currentState?.reset();
         return Scaffold(
           key: viewModel.scaffoldState,
-          body: Column(
-            children: [
-              Observer(builder: (_) {
-                return Card(
+          body: Observer(builder: (_) {
+            return Column(
+              children: [
+                Card(
                   margin: const EdgeInsets.all(12),
                   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(18))),
                   child: Column(
@@ -51,20 +54,20 @@ class QrGenerateView extends StatelessWidget {
                                     strokeWidth: 3,
                                     backgroundColor: Theme.of(context).colorScheme.onSurface,
                                   )
-                                : const Text('Generate')),
+                                : Text(LocaleKeys.generate_qr_app_bar.tr())),
                       )
                     ],
                   ),
-                );
-              }),
-              Expanded(
-                child: Padding(
-                  padding: AppPaddings.largeAllPadding,
-                  child: buildGridView(context, viewModel),
                 ),
-              ),
-            ],
-          ),
+                Expanded(
+                  child: Padding(
+                    padding: AppPaddings.largeAllPadding,
+                    child: buildGridView(context, viewModel),
+                  ),
+                ),
+              ],
+            );
+          }),
         );
       }),
     );

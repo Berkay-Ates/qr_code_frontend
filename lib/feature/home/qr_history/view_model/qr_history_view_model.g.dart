@@ -25,12 +25,40 @@ mixin _$QrHistoryViewModel on _QrHistoryViewModelBase, Store {
     });
   }
 
-  late final _$getUserQrCodesAsyncAction =
-      AsyncAction('_QrHistoryViewModelBase.getUserQrCodes', context: context);
+  late final _$generatedQrCodesAtom =
+      Atom(name: '_QrHistoryViewModelBase.generatedQrCodes', context: context);
 
   @override
-  Future<void> getUserQrCodes() {
-    return _$getUserQrCodesAsyncAction.run(() => super.getUserQrCodes());
+  GeneratedScannedQRModels? get generatedQrCodes {
+    _$generatedQrCodesAtom.reportRead();
+    return super.generatedQrCodes;
+  }
+
+  @override
+  set generatedQrCodes(GeneratedScannedQRModels? value) {
+    _$generatedQrCodesAtom.reportWrite(value, super.generatedQrCodes, () {
+      super.generatedQrCodes = value;
+    });
+  }
+
+  late final _$getUserGeneratedQrCodesAsyncAction = AsyncAction(
+      '_QrHistoryViewModelBase.getUserGeneratedQrCodes',
+      context: context);
+
+  @override
+  Future<void> getUserGeneratedQrCodes() {
+    return _$getUserGeneratedQrCodesAsyncAction
+        .run(() => super.getUserGeneratedQrCodes());
+  }
+
+  late final _$getUserScannedQrCodesAsyncAction = AsyncAction(
+      '_QrHistoryViewModelBase.getUserScannedQrCodes',
+      context: context);
+
+  @override
+  Future<void> getUserScannedQrCodes() {
+    return _$getUserScannedQrCodesAsyncAction
+        .run(() => super.getUserScannedQrCodes());
   }
 
   late final _$_QrHistoryViewModelBaseActionController =
@@ -61,7 +89,8 @@ mixin _$QrHistoryViewModel on _QrHistoryViewModelBase, Store {
   @override
   String toString() {
     return '''
-scannedQrCodes: ${scannedQrCodes}
+scannedQrCodes: ${scannedQrCodes},
+generatedQrCodes: ${generatedQrCodes}
     ''';
   }
 }

@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qr_code/core/init/lang/language_manager.dart';
+import 'package:qr_code/core/init/lang/locale_keys.g.dart';
 
 import '../../../../core/base/view/base_view.dart';
 import '../../../../core/constants/durations/app_durations.dart';
@@ -64,7 +67,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
     );
   }
 
-  Container buildTabbarContainer(BuildContext context, RegisterLoginViewModel viewModel) {
+  Widget buildTabbarContainer(BuildContext context, RegisterLoginViewModel viewModel) {
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onPrimary,
@@ -83,7 +86,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
         onTap: (value) {
           viewModel.changePage(value);
         },
-        tabs: const [Tab(child: Text("Login")), Tab(child: Text("Sign Up"))],
+        tabs: [Tab(text: LocaleKeys.register_login_login.tr()), Tab(text: LocaleKeys.register_login_signUp.tr())],
         labelStyle: Theme.of(context).textTheme.headline5,
         unselectedLabelStyle: Theme.of(context).textTheme.headline6,
         indicatorPadding: AppPaddings.smallAllPadding,
@@ -118,7 +121,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
         textInputAction: TextInputAction.done,
         controller: viewModel.passwordController,
         obscureText: !viewModel.islock,
-        validator: (value) => (value?.length ?? 0) > 5 ? null : 'Please provide stronger password',
+        validator: (value) => (value?.length ?? 0) > 5 ? null : LocaleKeys.register_login_stronger_password.tr(),
         decoration: InputDecoration(
             suffixIcon: IconButton(
               onPressed: () {
@@ -130,7 +133,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
                   crossFadeState: viewModel.islock ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                   duration: AppDurations.durationMedium),
             ),
-            labelText: "password",
+            labelText: LocaleKeys.register_login_password.tr(),
             icon: const Icon(Icons.lock_outline)));
   }
 
@@ -138,8 +141,9 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
     return TextFormField(
       textInputAction: TextInputAction.next,
       controller: viewModel.nameController,
-      validator: (value) => value?.isNotEmpty ?? false ? null : 'Plese provide a name',
-      decoration: const InputDecoration(labelText: "name", icon: Icon(Icons.person_outline_outlined)),
+      validator: (value) => value?.isNotEmpty ?? false ? null : LocaleKeys.register_login_name_required.tr(),
+      decoration: InputDecoration(
+          labelText: LocaleKeys.register_login_name.tr(), icon: const Icon(Icons.person_outline_outlined)),
     );
   }
 
@@ -148,7 +152,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
       controller: viewModel.emailController,
-      validator: (value) => value?.isValidMail ?? false ? null : 'Plese provide valid a email',
+      validator: (value) => value?.isValidMail ?? false ? null : LocaleKeys.register_login_valid_email.tr(),
       decoration: const InputDecoration(labelText: "email", icon: Icon(Icons.email_outlined)),
     );
   }
@@ -165,7 +169,7 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
               backgroundColor: Theme.of(context).colorScheme.error,
             ));
           },
-          child: const Text("Forgot Password")));
+          child: Text(LocaleKeys.register_login_forgot_passw.tr())));
 
   ElevatedButton buildLoginButton(BuildContext context, RegisterLoginViewModel viewModel) {
     return ElevatedButton(
@@ -182,7 +186,9 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
                   color: Theme.of(context).colorScheme.surface,
                 ))
               : Text(
-                  viewModel.pageIndex == 0 ? "enter to app" : "create an account",
+                  viewModel.pageIndex == 0
+                      ? LocaleKeys.register_login_entor_to_app.tr()
+                      : LocaleKeys.register_login_create_account.tr(),
                   style:
                       Theme.of(context).textTheme.headline5?.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 )),
@@ -193,13 +199,13 @@ class _RegisterLoginViewState extends State<RegisterLoginView> with TickerProvid
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        const Text("Don't have a account"),
+        Text(LocaleKeys.register_login_no_account.tr()),
         TextButton(
             onPressed: (() {
               viewModel.tabController?.animateTo(1);
               viewModel.changePage(1);
             }),
-            child: const Text("Sign Up"))
+            child: Text(LocaleKeys.register_login_signUp.tr()))
       ],
     );
   }

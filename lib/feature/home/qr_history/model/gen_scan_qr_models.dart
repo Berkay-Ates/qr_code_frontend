@@ -20,14 +20,16 @@ class GeneratedScannedQRModels {
 
 @JsonSerializable()
 class UserQrData {
-  String? sId;
+  @JsonKey(name: "_id")
+  String? id;
   String? qrType;
-  String? qrData;
   String? owner;
-  String? qrImage;
+  String? displayQrData;
+  String? qrData;
+  String? qrScanGen;
   String? uploadTime;
 
-  UserQrData({this.sId, this.qrType, this.qrData, this.owner, this.qrImage, this.uploadTime});
+  UserQrData({this.id, this.qrType, this.owner, this.displayQrData, this.uploadTime, this.qrScanGen, this.qrData});
 
   factory UserQrData.fromJson(Map<String, dynamic> json) {
     return _$UserQrDataFromJson(json);

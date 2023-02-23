@@ -12,7 +12,6 @@ void main() async {
       EasyLocalization(
         path: ApplicationConstants.langAssetPath,
         supportedLocales: LanguageManager.instance.supportedLocales,
-        startLocale: LanguageManager.instance.enLocale,
         child: MyApp(),
       ),
     );

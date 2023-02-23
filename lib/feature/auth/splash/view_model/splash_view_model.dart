@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qr_code/core/constants/durations/app_durations.dart';
+import '../../../../core/constants/enums/lang_enums.dart';
+import '../../../../core/init/lang/language_manager.dart';
 
 import '../../../../core/base/view_model/base_view_model.dart';
 import '../../../../core/constants/cache/cache_enums.dart';
-import '../../../../core/constants/durations/app_durations.dart';
 import '../../../../core/constants/enums/navigation_enums.dart';
 import '../../../../core/constants/enums/network_connectivity_enums.dart';
 import '../../../../core/init/cache/i_shared_manager.dart';
@@ -40,18 +43,32 @@ abstract class _SplashViewModelBase with Store, BaseViewModel {
     networkConnectivity = NetworkConnectivity();
     checkFirstTimeConnectivity();
     initAndSetShared();
+
+    //
   }
 
   Future<void> initAndSetShared() async {
     await sharedPrefObject?.initShared();
     sharedManager = SharedManger(sharedPrefObject?.getSharedObject);
     checkUserToken();
+    checkUserLang();
+  }
+
+  void checkUserLang() {
+    final userLocale = sharedManager?.getString(LanguageEmums.english.name);
+    if (userLocale != null) {
+      if (userLocale == LanguageEmums.english.name) {
+        baseContext.setLocale(LanguageManager.instance.enLocale);
+      } else {
+        baseContext.setLocale(LanguageManager.instance.trLocale);
+      }
+    }
   }
 
   @action
   Future<void> checkUserToken() async {
     String? token = sharedManager?.getString(CacheEnumKeys.TOKEN.name);
-    await Future.delayed(AppDurations.durationLow);
+    await Future.delayed(AppDurations.durationMedium);
     if (token != null) {
       UserToken.instance.setToken(token);
       navigationService.router.go(NavigationEnums.homeView.routeName);

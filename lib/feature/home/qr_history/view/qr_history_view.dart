@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qr_code/core/init/lang/locale_keys.g.dart';
+import 'package:qr_code/feature/home/qr_history_detail/view/qr_history_detail_view.dart';
 
 import '../../../../core/base/view/base_view.dart';
 import '../../../../core/extension/device_properties/device_properties.dart';
@@ -15,12 +18,6 @@ class QrHistoryView extends StatefulWidget {
 }
 
 class _QrHistoryViewState extends State<QrHistoryView> with TickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("qrHistory init called ");
-  }
-
   @override
   Widget build(BuildContext context) {
     return BaseView<QrHistoryViewModel>(
@@ -38,7 +35,10 @@ class _QrHistoryViewState extends State<QrHistoryView> with TickerProviderStateM
               TabBar(
                 controller: viewModel.tabController,
                 isScrollable: false,
-                tabs: const [Tab(child: Text(" Scanned ")), Tab(child: Text(" Generated "))],
+                tabs: [
+                  Tab(child: Text(" ${LocaleKeys.qr_history_scanned.tr()} ")),
+                  Tab(child: Text(" ${LocaleKeys.qr_history_app_bar.tr()}  "))
+                ],
                 labelStyle: Theme.of(context).textTheme.titleMedium,
                 unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
                 indicatorWeight: 3,
@@ -49,8 +49,15 @@ class _QrHistoryViewState extends State<QrHistoryView> with TickerProviderStateM
               ),
               SizedBox(
                 height: (context.deviceHeight ?? 100) * 0.80,
-                child: TabBarView(
-                    controller: viewModel.tabController, children: [buildQrFeeds(viewModel), buildQrFeeds(viewModel)]),
+                child: TabBarView(controller: viewModel.tabController, children: [
+                  Center(
+                      child: Text(
+                    LocaleKeys.qr_history_scanned_qr_cant_save_info.tr(),
+                    style: Theme.of(context).textTheme.headline6?.copyWith(color: Theme.of(context).colorScheme.error),
+                    textAlign: TextAlign.center,
+                  )),
+                  buildGeneratedQrFeeds(viewModel)
+                ]),
               ),
             ],
           ),
@@ -59,7 +66,52 @@ class _QrHistoryViewState extends State<QrHistoryView> with TickerProviderStateM
     );
   }
 
-  Widget buildQrFeeds(QrHistoryViewModel viewModel) {
+  Widget buildGeneratedQrFeeds(QrHistoryViewModel viewModel) {
+    return Observer(builder: (_) {
+      return viewModel.generatedQrCodes == null
+          ? const Center(child: CircularProgressIndicator())
+          : viewModel.generatedQrCodes?.userQrData?.isEmpty ?? true
+              ? Center(
+                  child: Text(LocaleKeys.qr_history_no_saved_qr.tr(),
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                      textAlign: TextAlign.center))
+              : Padding(
+                  padding: AppPaddings.mediumHorizontalPadding,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 60.0),
+                    child: ListView.builder(
+                        itemCount: viewModel.generatedQrCodes?.userQrData?.length ?? 0,
+                        itemBuilder: ((context, index) => Padding(
+                              padding: AppPaddings.smallVerticalPadding,
+                              child: Card(
+                                  child: ListTile(
+                                onTap: () async {
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => QrHistoryDetailView(
+                                              userQrData: viewModel.generatedQrCodes?.userQrData?[index]))));
+
+                                  await viewModel.getUserGeneratedQrCodes();
+                                },
+                                contentPadding: AppPaddings.largeAllPadding,
+                                leading: viewModel.getQrAvatars(QrCodeOptionsEnum.values.firstWhere((element) =>
+                                    element.names == viewModel.generatedQrCodes?.userQrData?[index].qrType)),
+                                title: Text(
+                                  viewModel.generatedQrCodes?.userQrData?[index].displayQrData ?? 'NULL',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )),
+                            ))),
+                  ));
+    });
+  }
+
+  Widget buildScannedQrFeeds(QrHistoryViewModel viewModel) {
     return Observer(builder: (_) {
       return viewModel.scannedQrCodes == null
           ? const Center(child: CircularProgressIndicator())
@@ -71,13 +123,12 @@ class _QrHistoryViewState extends State<QrHistoryView> with TickerProviderStateM
                         padding: AppPaddings.smallVerticalPadding,
                         child: Card(
                             child: ListTile(
-                                contentPadding: AppPaddings.largeAllPadding,
-                                leading: viewModel.getQrAvatars(QrCodeOptionsEnum.values.firstWhere(
-                                    (element) => element.names == viewModel.scannedQrCodes?.userQrData?[index].qrType)),
-                                title: Text(viewModel.scannedQrCodes?.userQrData?[index].qrData ?? 'NULL',
-                                    style: Theme.of(context).textTheme.titleLarge),
-                                subtitle:
-                                    const Text("lorem text string data key style struct style hello locale someth"))),
+                          contentPadding: AppPaddings.largeAllPadding,
+                          leading: viewModel.getQrAvatars(QrCodeOptionsEnum.values.firstWhere(
+                              (element) => element.names == viewModel.scannedQrCodes?.userQrData?[index].qrType)),
+                          title: Text(viewModel.scannedQrCodes?.userQrData?[index].qrData ?? 'NULL',
+                              style: Theme.of(context).textTheme.titleLarge),
+                        )),
                       ))));
     });
   }

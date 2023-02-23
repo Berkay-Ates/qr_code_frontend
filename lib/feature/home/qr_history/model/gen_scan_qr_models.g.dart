@@ -21,20 +21,22 @@ Map<String, dynamic> _$GeneratedScannedQRModelsToJson(
     };
 
 UserQrData _$UserQrDataFromJson(Map<String, dynamic> json) => UserQrData(
-      sId: json['sId'] as String?,
+      id: json['_id'] as String?,
       qrType: json['qrType'] as String?,
-      qrData: json['qrData'] as String?,
       owner: json['owner'] as String?,
-      qrImage: json['qrImage'] as String?,
+      displayQrData: json['displayQrData'] as String?,
       uploadTime: json['uploadTime'] as String?,
+      qrScanGen: json['qrScanGen'] as String?,
+      qrData: json['qrData'] as String?,
     );
 
 Map<String, dynamic> _$UserQrDataToJson(UserQrData instance) =>
     <String, dynamic>{
-      'sId': instance.sId,
+      '_id': instance.id,
       'qrType': instance.qrType,
-      'qrData': instance.qrData,
       'owner': instance.owner,
-      'qrImage': instance.qrImage,
+      'displayQrData': instance.displayQrData,
+      'qrData': instance.qrData,
+      'qrScanGen': instance.qrScanGen,
       'uploadTime': instance.uploadTime,
     };
